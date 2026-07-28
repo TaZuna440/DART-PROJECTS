@@ -1,36 +1,74 @@
 import 'dart:io';
+
+List<Map<String,dynamic>> students = [];
 void main() {
-    stdout.write('Enter your name : ');
-    String? name = stdin.readLineSync();
+    print('===========================================================');
+    print('STUDENT INFORMATION SYSTEM');
+    print('===========================================================');
+    print('1. ADD STUDENT');
+    print('2. VIEW STUDENT');
+    print('3. UPDATE STUDENT');
+    print('4. DELETE STUDENT'); 
+    print('');
 
-    stdout.write('Enter your age : ');
-    String? age = stdin.readLineSync();
+    stdout.write('ENTER A NUMBER TO SELECT : ');
+    var choice = double.parse(stdin.readLineSync()!);
 
-    stdout.write('Enter your course : ');
-    String? course = stdin.readLineSync();
+    switch (choice) {
+        case 1:
+            print('1. ADD STUDENT');
+        break;
 
-    stdout.write('Enter your GWA : ');
-    var gwa = double.parse(stdin.readLineSync()!);
+        case 2:
+            print('2. VIEW STUDENT');    
+        break;
 
-    var status;
+        case 3:
+            print('3. UPDATE STUDENT');
+        break;
 
-    if (gwa <= 1.75) {
-        status = 'EXCELLENT';
-    } else if (gwa <= 2.25) {
-        status = 'Very Good';
-    } else if (gwa <= 3.0) {
-        status = 'Passed';
+        case 4:
+            print('4. DELETE STUDENT');    
+        break;
+
+        default:
+            print('ERROR: INVALID INPUT');
     }
-    else {
-        status = 'Probation';
-}
 
-    print('==================================================');
-    print('Name : $name');
-    print('Age : $age');
-    print('Course : $course');
-    print('General Weighted Average : $gwa');
-    print('Status : $status');
-    print('==================================================');
+
+
+
+//     stdout.write('Enter your name : ');
+//     String? name = stdin.readLineSync();
+
+//     stdout.write('Enter your age : ');
+//     String? age = stdin.readLineSync();
+
+//     stdout.write('Enter your course : ');
+//     String? course = stdin.readLineSync();
+
+//     stdout.write('Enter your GWA : ');
+//     var gwa = double.parse(stdin.readLineSync()!);
+
+//     var status;
+
+//     if (gwa <= 1.75) {
+//         status = 'EXCELLENT';
+//     } else if (gwa <= 2.25) {
+//         status = 'Very Good';
+//     } else if (gwa <= 3.0) {
+//         status = 'Passed';
+//     }
+//     else {
+//         status = 'Probation';
+// }
+
+//     print('==================================================');
+//     print('Name : $name');
+//     print('Age : $age');
+//     print('Course : $course');
+//     print('General Weighted Average : $gwa');
+//     print('Status : $status');
+//     print('==================================================');
 }
 
