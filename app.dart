@@ -16,7 +16,7 @@ void main() {
 
     switch (choice) {
         case 1:
-            print('1. ADD STUDENT');
+            addStudent();
         break;
 
         case 2:
@@ -34,41 +34,40 @@ void main() {
         default:
             print('ERROR: INVALID INPUT');
     }
-
-
-
-
-//     stdout.write('Enter your name : ');
-//     String? name = stdin.readLineSync();
-
-//     stdout.write('Enter your age : ');
-//     String? age = stdin.readLineSync();
-
-//     stdout.write('Enter your course : ');
-//     String? course = stdin.readLineSync();
-
-//     stdout.write('Enter your GWA : ');
-//     var gwa = double.parse(stdin.readLineSync()!);
-
-//     var status;
-
-//     if (gwa <= 1.75) {
-//         status = 'EXCELLENT';
-//     } else if (gwa <= 2.25) {
-//         status = 'Very Good';
-//     } else if (gwa <= 3.0) {
-//         status = 'Passed';
-//     }
-//     else {
-//         status = 'Probation';
-// }
-
-//     print('==================================================');
-//     print('Name : $name');
-//     print('Age : $age');
-//     print('Course : $course');
-//     print('General Weighted Average : $gwa');
-//     print('Status : $status');
-//     print('==================================================');
 }
 
+// ADD STUDENT
+void addStudent(){
+    stdout.write('Enter your name : ');
+    String? name = stdin.readLineSync();
+
+    stdout.write('Enter your age : ');
+    String? age = stdin.readLineSync();
+
+    stdout.write('Enter your course : ');
+    String? course = stdin.readLineSync();
+
+    stdout.write('Enter your GWA : ');
+    var gwa = double.parse(stdin.readLineSync()!);
+
+    var status;
+
+    if (gwa <= 1.75) {
+        status = 'EXCELLENT';
+    } else if (gwa <= 2.25) {
+        status = 'Very Good';
+    } else if (gwa <= 3.0) {
+        status = 'Passed';
+    }
+    else {
+        status = 'Probation';
+    }
+
+    print('==================================================');
+    print('Name : $name');
+    print('Age : $age');
+    print('Course : $course');
+    print('General Weighted Average : $gwa');
+    print('Status : $status');
+    print('==================================================');
+}
