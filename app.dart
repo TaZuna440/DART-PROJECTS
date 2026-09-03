@@ -1,24 +1,35 @@
 import 'dart:io';
 
+int counter = 1;
 List<Map<String, dynamic>> students = [];
 
 void main() {
+  Menu();
+}
+
+void Menu() {
   while (true) {
-    print('\n===================================================');
-    print('           STUDENT INFORMATION SYSTEM');
-    print('===================================================');
+    print('');
+    print('===========================================================');
+    print('STUDENT INFORMATION SYSTEM');
+    print('===========================================================');
     print('1. ADD STUDENT');
-    print('2. VIEW STUDENT LIST');
+    print('2. VIEW STUDENT');
     print('3. UPDATE STUDENT');
     print('4. DELETE STUDENT');
     print('5. CLASS AVERAGE');
     print('6. STUDENT WITH HIGHEST GRADE');
     print('7. STUDENT WITH LOWEST GRADE');
-    print('8. EXIT');
-    print('===================================================');
+    print('8. Exit');
+    print('');
 
-    stdout.write('Enter your choice: ');
-    int? choice = int.tryParse(stdin.readLineSync() ?? '');
+    stdout.write('\nENTER A NUMBER TO SELECT : ');
+    double? choice = double.tryParse(stdin.readLineSync() ?? '');
+
+    if (choice == null) {
+      print('\nERROR: INVALID INPUT');
+      continue;
+    }
 
     switch (choice) {
       case 1:
@@ -26,7 +37,7 @@ void main() {
         break;
 
       case 2:
-        viewStudents();
+        viewStudent();
         break;
 
       case 3:
@@ -40,186 +51,193 @@ void main() {
       case 5:
         classAverage();
         break;
-
       case 6:
         highestGrade();
         break;
-
       case 7:
         lowestGrade();
         break;
-
       case 8:
-        print('\nThank you for using the system!');
+        print('Terminating program...');
+        print('Terminating program...');
+        print('Terminating program...');
+        print('Program Exited.');
         exit(0);
 
       default:
-        print('\nERROR: Invalid input.');
+        print('\nERROR: INVALID INPUT');
     }
   }
 }
-
-// ======================= ADD STUDENT =======================
 
 void addStudent() {
-  stdout.write('\nEnter student name: ');
+  print('\n========= ADD STUDENT =========');
+  stdout.write('Enter your name : ');
   String? name = stdin.readLineSync();
 
-  stdout.write('Enter age: ');
+  stdout.write('Enter your age : ');
   int? age = int.tryParse(stdin.readLineSync() ?? '');
 
-  stdout.write('Enter course: ');
+  stdout.write('Enter your course : ');
   String? course = stdin.readLineSync();
 
-  stdout.write('Enter GWA: ');
+  stdout.write('Enter your year level : ');
+  String? year_level = stdin.readLineSync();
+
+  stdout.write('Enter your general weighted average : ');
   double? gwa = double.tryParse(stdin.readLineSync() ?? '');
 
-  if (age == null || gwa == null) {
-    print('\nInvalid input!');
-    return;
-  }
+  students.add({
+    'ID': counter,
+    'Name': name,
+    'Age': age,
+    'Course': course,
+    'Year_Level': year_level,
+    'GWA': gwa,
+  });
+  counter++;
 
-  students.add({'name': name, 'age': age, 'course': course, 'gwa': gwa});
-
-  print('\nStudent added successfully!');
+  print('\nStudent Added Successfully.');
 }
 
-// ======================= VIEW STUDENTS =======================
-
-void viewStudents() {
-  if (students.isEmpty) {
-    print('\nNo students found.');
+void viewStudent() {
+  if (isEmptyStudent()) {
     return;
   }
-
-  print('\n============== STUDENT LIST ==============');
-
+  print('========= STUDENT LIST =========');
   for (int i = 0; i < students.length; i++) {
-    print('\nStudent #${i + 1}');
-    print('Name   : ${students[i]['name']}');
-    print('Age    : ${students[i]['age']}');
-    print('Course : ${students[i]['course']}');
-    print('GWA    : ${students[i]['gwa']}');
+    print('');
+    print('========= Student ${i + 1} =========');
+    print('ID : ${students[i]['ID']}');
+    print('Name : ${students[i]['Name']}');
+    print('Age : ${students[i]['Age']}');
+    print('Course : ${students[i]['Course']}');
+    print('Year Level : ${students[i]['Year_Level']}');
+    print('GWA : ${students[i]['GWA']}');
   }
 }
-
-// ======================= UPDATE STUDENT =======================
 
 void updateStudent() {
-  if (students.isEmpty) {
-    print('\nNo students available.');
+  viewStudent();
+  int? index = searchStudent();
+  if (index == null) {
     return;
   }
+  print('========= UPDATE STUDENT =========');
+  stdout.write('\nEnter New Student Name: ');
+  students[index]['Name'] = stdin.readLineSync();
 
-  viewStudents();
+  stdout.write('Enter New Student Age: ');
+  students[index]['Age'] = int.tryParse(stdin.readLineSync() ?? '');
 
-  stdout.write('\nEnter student number to update: ');
-  int? index = int.tryParse(stdin.readLineSync() ?? '');
+  stdout.write('Enter New Student Course: ');
+  students[index]['Course'] = stdin.readLineSync();
 
-  if (index == null || index < 1 || index > students.length) {
-    print('\nInvalid student number.');
-    return;
-  }
+  stdout.write('Enter New Student Year Level: ');
+  students[index]['Year_Level'] = stdin.readLineSync();
 
-  index--;
+  stdout.write('Enter New Student GWA: ');
+  students[index]['GWA'] = double.tryParse(stdin.readLineSync() ?? '');
 
-  stdout.write('Enter new name: ');
-  students[index]['name'] = stdin.readLineSync();
-
-  stdout.write('Enter new age: ');
-  students[index]['age'] = int.parse(stdin.readLineSync()!);
-
-  stdout.write('Enter new course: ');
-  students[index]['course'] = stdin.readLineSync();
-
-  stdout.write('Enter new GWA: ');
-  students[index]['gwa'] = double.parse(stdin.readLineSync()!);
-
-  print('\nStudent updated successfully!');
+  print('\nStudent Updated Successfully.');
 }
-
-// ======================= DELETE STUDENT =======================
 
 void deleteStudent() {
-  if (students.isEmpty) {
-    print('\nNo students available.');
+  if (isEmptyStudent()) {
     return;
   }
-
-  viewStudents();
-
-  stdout.write('\nEnter student number to delete: ');
-  int? index = int.tryParse(stdin.readLineSync() ?? '');
-
-  if (index == null || index < 1 || index > students.length) {
-    print('\nInvalid student number.');
+  int? index = searchStudent();
+  if (index == null) {
     return;
   }
-
-  students.removeAt(index - 1);
-
-  print('\nStudent deleted successfully!');
+  print('========= DELETE STUDENT =========');
+  students.remove(students[index]);
+  print('\nStudent Deleted Successfully.');
 }
-
-// ======================= CLASS AVERAGE =======================
 
 void classAverage() {
-  if (students.isEmpty) {
-    print('\nNo students available.');
+  if (isEmptyStudent()) {
     return;
   }
-
   double total = 0;
-
-  for (var student in students) {
-    total += student['gwa'];
+  for (int i = 0; i < students.length; i++) {
+    total += students[i]['GWA'];
   }
-
   double average = total / students.length;
 
-  print('\nClass Average: ${average.toStringAsFixed(2)}');
+  print('\n========= CLASS AVERAGE =========');
+  print('The Class Average is ${average}');
 }
-
-// ======================= HIGHEST GRADE =======================
-// NOTE: For GWA, 1.00 is the highest.
 
 void highestGrade() {
-  if (students.isEmpty) {
-    print('\nNo students available.');
+  if (isEmptyStudent()) {
     return;
   }
 
-  var highest = students[0];
+  Map<String, dynamic> highest = students[0];
 
-  for (var student in students) {
-    if (student['gwa'] < highest['gwa']) {
-      highest = student;
+  // The lowest is the highest
+  for (int i = 0; i < students.length; i++) {
+    if (students[i]['GWA'] < highest['GWA']) {
+      highest = students[i];
     }
   }
-
-  print('\nStudent with Highest Grade');
-  print('Name : ${highest['name']}');
-  print('GWA  : ${highest['gwa']}');
+  print('\n========= HIGHEST GRADE =========');
+  print('Name : ${highest['Name']}');
+  print('Age : ${highest['Age']}');
+  print('Course : ${highest['Course']}');
+  print('Year Level : ${highest['Year_Level']}');
+  print('GWA : ${highest['GWA']}');
 }
 
-// ======================= LOWEST GRADE =======================
-// NOTE: For GWA, 5.00 is the lowest.
-
 void lowestGrade() {
-  if (students.isEmpty) {
-    print('\nNo students available.');
+  if (isEmptyStudent()) {
     return;
   }
 
-  var lowest = students[0];
+  Map<String, dynamic> lowest = students[0];
 
-  for (var student in students) {
-    if (student['gwa'] > lowest['gwa']) {
-      lowest = student;
+  // The highest is the lowest
+  for (int i = 0; i < students.length; i++) {
+    if (students[i]['GWA'] > lowest['GWA']) {
+      lowest = students[i];
     }
   }
+  print('\n========= LOWEST GRADE =========');
+  print('Name : ${lowest['Name']}');
+  print('Age : ${lowest['Age']}');
+  print('Course : ${lowest['Course']}');
+  print('Year Level : ${lowest['Year_Level']}');
+  print('GWA : ${lowest['GWA']}');
+}
 
-  print('\nStudent with Lowest Grade');
-  print('Name : ${lowest['name']}');
-  print('GWA  : ${lowest['gwa']}');
+// Repeatable Functions sabi ni sir follow the DRY principle
+int? searchStudent() {
+  if (isEmptyStudent()) {
+    return null;
+  }
+
+  stdout.write('\nEnter Student Number: ');
+  int? id = int.tryParse(stdin.readLineSync() ?? '');
+
+  if (id == null || id < 1) {
+    print('\nInvalid Student ID');
+    return null; // babalik kay input
+  }
+
+  for (int i = 0; i < students.length; i++) {
+    if (students[i]['ID'] == id) {
+      return i;
+    }
+  }
+  print('\nStudent Not Found.');
+  return null;
+}
+
+bool isEmptyStudent() {
+  if (students.isEmpty) {
+    print('\nNo records found.');
+    return true;
+  }
+  return false;
 }
